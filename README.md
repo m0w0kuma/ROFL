@@ -22,8 +22,7 @@ To parse a single file:
 To parse various files in a folder:
 -  ./ROFL.exe -p /path/to/patch_file.patch folder -r /path/to/replay_folder -o /path/to/output_folder 
 ## Output File
-The output file is a .json with all the informations:
-
+This is the truncated version of the .json output of a random game:
 ```javascript
 "metadata": {
     "game_len": 2192410,
