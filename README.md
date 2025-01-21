@@ -14,7 +14,7 @@ Right now, we can:
 Download the .zip file in release section.
 ## Information
 For ROFL to work we need a .patch file that contains patch information, i will try my best to stay up to date and provide these every patch. 
-The files can be found on .zip in release section.
+The files can be found in .zip in the release section.
 ## Usage
 To parse a single file:
 -  ./ROFL.exe -p /path/to/patch_file.patch file -r /path/to/replay_file.rofl -o /path/to/output_file.json
