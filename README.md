@@ -13,7 +13,7 @@ Right now, we can:
 ## Quickstart
 Download the .zip file in release section.
 ## Information
-For ROFL to work we need a .patch file that contains patch informations, i will try my best to stay up to date and provide these every patch. 
+For ROFL to work we need a .patch file that contains patch informations, i will try my best to stay up to date and provide these for every upcoming patch. 
 The files can be found in .zip in the release section.
 ## Usage
 To parse a single file:
