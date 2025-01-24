@@ -1,5 +1,5 @@
 # ROFL 
-ROFL is a tool for parsing and extracting information from League of Legends replay(.rofl).
+ROFL is a tool for parsing and extracting information from League of Legends replay file(.rofl).
 ## Features
 Right now, we can: 
   - Extract champions position(x, y) in intervals of one sec.
