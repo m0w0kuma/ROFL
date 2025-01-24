@@ -18,6 +18,7 @@ You can find the .patch files in the zip file in release section.
 ## Usage
 To parse a single file:
 -  ./ROFL.exe -p /path/to/patch_file.patch file -r /path/to/replay_file.rofl -o /path/to/output_file.json
+-  Example: ./ROFL.exe -p "./patch/5-2.patch" file -r C:\Users\monokuma\Desktop\replay_folder\patch_5.2.rofl -o "teste.json"
   
 To parse various files in a folder:
 -  ./ROFL.exe -p /path/to/patch_file.patch folder -r /path/to/replay_folder -o /path/to/output_folder 
