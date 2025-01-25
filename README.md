@@ -17,11 +17,9 @@ OBS: For ROFL to work we need a .patch file that contains patch informations, i 
 You can find the .patch files in the zip file in release section.
 ## Usage
 To parse a single file:
--  ./ROFL.exe -p /path/to/patch_file.patch file -r /path/to/replay_file.rofl -o /path/to/output_file.json
--  Example: ./ROFL.exe -p "./patch/5-2.patch" file -r C:\replays\replay.rofl -o "test.json"
+-  ./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
+-  Example: ./ROFL.exe file -r C:\replays\replay.rofl -o "test.json"
   
-To parse various files in a folder:
--  ./ROFL.exe -p /path/to/patch_file.patch folder -r /path/to/replay_folder -o /path/to/output_folder 
 ## Output File
 This is the truncated version of the .json output of a random game:
 ```javascript
