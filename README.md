@@ -18,8 +18,10 @@ You can find the .patch files in the zip file in release section.
 ## Usage
 To parse a single file:
 -  ./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
--  Example: ./ROFL.exe file -r C:\replays\replay.rofl -o "test.json"
   
+Example:
+  ![cli](https://github.com/user-attachments/assets/c0ab2a79-2cba-4cab-a175-6ce4d27825b5)
+
 ## Output File
 This is the truncated version of the .json output of a random game:
 ```javascript
