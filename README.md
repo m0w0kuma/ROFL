@@ -20,7 +20,8 @@ To parse a single file:
 -  ./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
   
 Example:
-  ![cli](https://github.com/user-attachments/assets/c0ab2a79-2cba-4cab-a175-6ce4d27825b5)
+  ![cli](https://github.com/user-attachments/assets/068a1880-4145-4000-977f-e612f0670b35)
+
 
 ## Output File
 This is the truncated version of the .json output of a random game:
