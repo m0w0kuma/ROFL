@@ -2,13 +2,13 @@ use std::{
     collections::HashMap,
     fs::File,
     io::Write,
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
 
 use serde_json::{json, Value};
 
-use chrono::Local;
+use chrono::{format::format, Local};
 use clap::{Parser, Subcommand};
 use colored::*;
 use emulator::packet::{get_role_from_id, get_team_from_id, PathPacket, PosKey, WardSpawnPacket};
@@ -52,8 +52,6 @@ fn setup_logger() -> Result<(), fern::InitError> {
 pub struct Cli {
     #[clap(subcommand)]
     parsing: Parsing,
-    #[clap(short, long, help = "Path to to patch file")]
-    patch_file: String,
 }
 
 #[derive(Debug, Subcommand)]
@@ -63,6 +61,8 @@ enum Parsing {
         replay_folder: String,
         #[clap(short, long, help = "Path to output folder")]
         output_folder: String,
+        #[clap(short, long, help = "Path to to patch file")]
+        patch_file: String,
     },
     File {
         #[clap(short, long)]
@@ -72,9 +72,9 @@ enum Parsing {
     },
 }
 
-fn get_replay_info(replay_path: String, config: &Config) -> Value {
-    let file = read_file(replay_path);
-    let metadata = Metadata::parse(&file);
+fn get_replay_info(file: Vec<u8>, metadata: &Metadata, config: &Config) -> Value {
+    //let file = read_file(replay_path);
+    //let metadata = Metadata::parse(&file);
 
     let mut game = json!({
         "metadata": metadata,
@@ -208,6 +208,7 @@ fn get_replay_info(replay_path: String, config: &Config) -> Value {
     game
 }
 
+/*
 fn parse_batch(replay_folder: String, output_folder: String, config: Config) {
     let start = std::time::Instant::now();
 
@@ -249,11 +250,33 @@ fn parse_batch(replay_folder: String, output_folder: String, config: Config) {
     let end = start.elapsed().as_secs_f32();
     info!("Output: {}, Total execution time: {:.3}", "dump.json", end);
 }
+*/
 
-fn parse_file(replay_file: String, output_file: String, config: Config) {
+fn get_appropiate_patch(version: String) -> PathBuf {
+    let mut patch_file_name = version.replace(".", "-");
+    patch_file_name.pop();
+    let patch_file = format!("./patch/{}.patch", patch_file_name);
+
+    let patch_path = Path::new(&patch_file);
+
+    if !patch_path.exists() {
+        println!("name: {}", patch_file);
+        panic!("Patch file not found for version: {}", version);
+    }
+
+    info!("Loaded patch config from: {}.patch", patch_file_name);
+
+    patch_path.to_path_buf()
+}
+
+fn parse_file(replay_file: String, output_file: String) {
     let start = std::time::Instant::now();
 
-    let game = get_replay_info(replay_file.clone(), &config);
+    let file = read_file(replay_file.clone());
+    let metadata = Metadata::parse(&file);
+    let config = Config::parse(&get_appropiate_patch(metadata.version.clone()));
+
+    let game = get_replay_info(file, &metadata, &config);
 
     let json_path = PathBuf::from(output_file.clone());
     let mut json = File::create(json_path).unwrap();
@@ -267,20 +290,22 @@ fn main() {
     setup_logger().unwrap();
 
     let args = Cli::parse();
-    let config = Config::parse(std::path::Path::new(&args.patch_file));
+    //let config = Config::parse(std::path::Path::new(&args.patch_file));
 
-    info!("Loaded patch config from: {}", args.patch_file);
+    //info!("Loaded patch config from: {}", args.patch_file);
 
     match args.parsing {
         Parsing::File {
             replay_file,
             output_file,
         } => {
-            parse_file(replay_file, output_file, config);
-        }
+            parse_file(replay_file, output_file);
+        } /*
         Parsing::Folder {
-            replay_folder,
-            output_folder,
+        replay_folder,
+        output_folder,
         } => parse_batch(replay_folder, output_folder, config),
+         */
+        _ => unimplemented!("Batch parsing not implemented yet"),
     }
 }
