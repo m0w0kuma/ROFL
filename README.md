@@ -17,8 +17,9 @@ OBS: For ROFL to work we need a .patch file that contains patch informations, i 
 You can find the .patch files in the zip file in release section.
 ## Usage
 To parse a single file:
--  ./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
-  
+```console
+./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
+```  
 Example:
   ![cli](https://github.com/user-attachments/assets/068a1880-4145-4000-977f-e612f0670b35)
 
