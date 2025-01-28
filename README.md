@@ -1,5 +1,16 @@
 # ROFL 
 ROFL is a tool for parsing and extracting information from League of Legends replay file(.rofl).
+## Why ROFL?
+Riot Games offers minimal game data through their APIs, often lacking critical granular details. For example:
+- Player positions are only available on a 1-minute interval basis, making it impossible to accurately track player movement patterns throughout the game.
+- No information about wards on the map is provided.
+
+Analysis like [that](https://www.reddit.com/r/leagueoflegends/comments/1i0ky00/soloq_ward_heatmap/), for example, is not possible using riot API.
+
+I have some personal objectives with this project: 
+- Attempt to statistically determine the optimal jungle path for a given champion.
+- Analyze movement patterns and their correlation with game outcomes. For instance, explore whether winning teams maintain higher jungle-support proximity.
+
 ## Features
 Right now, we can: 
   - Extract champions position(x, y) in intervals of one sec.
