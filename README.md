@@ -1,5 +1,16 @@
 # ROFL 
 ROFL is a tool for parsing and extracting information from League of Legends replay file(.rofl).
+## Why ROFL?
+Riot Games offers minimal game data through their APIs, often lacking critical granular details. For example:
+- Player positions are only available on a 1-minute interval basis, making it impossible to accurately track player movement patterns throughout the game.
+- No information about wards on the map is provided.
+
+Analysis like [that](https://www.reddit.com/r/leagueoflegends/comments/1i0ky00/soloq_ward_heatmap/), for example, is not possible using riot API.
+
+I have some personal objectives with this project: 
+- Attempt to statistically determine the optimal jungle path for a given champion.
+- Analyze movement patterns and their correlation with game outcomes. For instance, explore whether winning teams maintain higher jungle-support proximity.
+
 ## Features
 Right now, we can: 
   - Extract champions position(x, y) in intervals of one sec.
@@ -13,13 +24,15 @@ Right now, we can:
 ## Quickstart
 Download the .zip file in release section.
 
-OBS: For ROFL to work we need a .patch file that contains patch informations, i will try my best to stay up to date and provide these for every upcoming patch. 
-You can find the .patch files in the zip file in release section.
 ## Usage
 To parse a single file:
--  ./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
--  Example: ./ROFL.exe file -r C:\replays\replay.rofl -o "test.json"
-  
+```console
+./ROFL.exe file -r /path/to/replay_file.rofl -o /path/to/output_file.json
+```  
+Example:
+  ![cli](https://github.com/user-attachments/assets/068a1880-4145-4000-977f-e612f0670b35)
+
+
 ## Output File
 This is the truncated version of the .json output of a random game:
 ```javascript
