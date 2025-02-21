@@ -2,7 +2,7 @@ use serde_json::*;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Player {
     pub name: String,
     pub skin: String,
@@ -10,7 +10,7 @@ pub struct Player {
     pub position: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Metadata {
     pub version: String,
     pub game_len: u64,
@@ -75,5 +75,10 @@ impl Metadata {
             winning_team,
             players,
         }
+    }
+
+    pub fn get_player_from_id(&self, id: u32, player_id_start: u32) -> Player {
+        let index = id - player_id_start;
+        self.players[index as usize].clone()
     }
 }

@@ -7,7 +7,10 @@ use unicorn_engine::{
 
 use anyhow::Result;
 
-use std::sync::{Arc, Mutex};
+use std::{
+    process::exit,
+    sync::{Arc, Mutex},
+};
 
 use crate::emulator::{
     config::{Config, Section},
@@ -142,7 +145,7 @@ impl<'a> StubEmulator<'a> {
                         let mut y = y_clone.lock().unwrap();
                         *y = f32::from_bits(value as u32);
                     }
-                    
+
                     // for these two, we only care about the first write
                     if offset == id_offset && count == 0 {
                         let mut id = id_clone.lock().unwrap();

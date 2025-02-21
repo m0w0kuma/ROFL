@@ -1,5 +1,6 @@
 use std::{
     collections::HashMap,
+    env,
     fs::File,
     io::Write,
     path::{Path, PathBuf},
@@ -11,7 +12,7 @@ use serde_json::{json, Value};
 use chrono::{format::format, Local};
 use clap::{Parser, Subcommand};
 use colored::*;
-use emulator::packet::{get_role_from_id, get_team_from_id, PathPacket, PosKey, WardSpawnPacket};
+use emulator::packet::{PathPacket, PosKey, WardSpawnPacket};
 use fern::*;
 use log::{info, LevelFilter};
 use rayon::prelude::*;
@@ -62,7 +63,7 @@ enum Parsing {
         #[clap(short, long, help = "Path to output folder")]
         output_folder: String,
         #[clap(short, long, help = "Path to to patch file")]
-        patch_file: String,
+        patch_version: String,
     },
     File {
         #[clap(short, long)]
@@ -73,28 +74,10 @@ enum Parsing {
 }
 
 fn get_replay_info(file: Vec<u8>, metadata: &Metadata, config: &Config) -> Value {
-    //let file = read_file(replay_path);
-    //let metadata = Metadata::parse(&file);
-
     let mut game = json!({
-        "metadata": metadata,
+        "metadata": metadata.clone(),
         "wards": [],
-        "players": {
-            "Red": {
-                "Top": [],
-                "Jungle": [],
-                "Mid": [],
-                "Adc": [],
-                "Support": []
-            },
-            "Blue": {
-                "Top": [],
-                "Jungle": [],
-                "Mid": [],
-                "Adc": [],
-                "Support": []
-            }
-        },
+        "players_state": [],
     });
 
     let ward_spawn_packets = get_blocks_with_id(&file, config.ward_spawn_decrypt.netid as u16)
@@ -138,10 +121,12 @@ fn get_replay_info(file: Vec<u8>, metadata: &Metadata, config: &Config) -> Value
         } else if packet.name.contains("Corpse") {
             if let Some((_, id)) = pos_id_map.remove_entry(&PosKey::new(packet.x, packet.y)) {
                 if let Some((_, p)) = placed_wards_map.remove_entry(&id) {
+                    let owner_player =
+                        metadata.get_player_from_id(p.owner_id, config.player_id_start);
                     game["wards"].as_array_mut().unwrap().push(json!({
                         "name": p.name,
-                        "team": get_team_from_id(p.owner_id, config.player_id_start),
-                        "owner_role": get_role_from_id(p.owner_id, config.player_id_start),
+                        "team": owner_player.team, 
+                        "owner" : json!({ "name": owner_player.name, "team": owner_player.team, "role": owner_player.position}),
                         "timestamp": p.timestamp,
                         "duration": packet.timestamp - p.timestamp,
                         "pos" : [p.x, p.y],
@@ -189,28 +174,35 @@ fn get_replay_info(file: Vec<u8>, metadata: &Metadata, config: &Config) -> Value
         }
 
         if packet.timestamp - timestamp >= 1.0 {
+            let mut state = json!({
+                "timestamp": timestamp,
+                "players": json!([]),
+            });
+
             for (_, path) in players_path_state.iter() {
                 let (x, y) = path.get_pos(packet.timestamp);
-                let role = get_role_from_id(path.id, config.player_id_start);
-                let team = get_team_from_id(path.id, config.player_id_start);
-                game["players"][team][role]
-                    .as_array_mut()
-                    .unwrap()
-                    .push(json!({
-                        "timestamp": packet.timestamp,
-                        "pos": [x, y]
-                    }));
+                let player = metadata.get_player_from_id(path.id, config.player_id_start);
+                state["players"].as_array_mut().unwrap().push(json!({
+                    "role": player.position,
+                    "team": player.team,
+                    "name": player.name,
+                    "champ": player.skin,
+                    "pos": [x, y],
+                }));
             }
             timestamp = packet.timestamp;
+
+            game["players_state"].as_array_mut().unwrap().push(state);
         }
     }
 
     game
 }
 
-/*
-fn parse_batch(replay_folder: String, output_folder: String, config: Config) {
+fn parse_batch(replay_folder: String, output_folder: String, patch_version: String) {
     let start = std::time::Instant::now();
+
+    let config = Config::parse(&get_appropiate_patch(patch_version));
 
     let files: Vec<_> = std::fs::read_dir(replay_folder)
         .unwrap()
@@ -233,7 +225,10 @@ fn parse_batch(replay_folder: String, output_folder: String, config: Config) {
             .unwrap()
             .to_string();
 
-        let game = get_replay_info(replay_path.clone(), &config);
+        let file = read_file(replay_path.clone());
+        let metadata = Metadata::parse(&file);
+
+        let game = get_replay_info(file, &metadata, &config);
 
         let json_path = PathBuf::from(output_folder.clone()).join(name + ".json");
         let mut json = File::create(json_path).unwrap();
@@ -248,9 +243,8 @@ fn parse_batch(replay_folder: String, output_folder: String, config: Config) {
     });
 
     let end = start.elapsed().as_secs_f32();
-    info!("Output: {}, Total execution time: {:.3}", "dump.json", end);
+    info!("Total execution time: {:.3}", end);
 }
-*/
 
 fn get_appropiate_patch(version: String) -> PathBuf {
     let mut patch_file_name = version.replace(".", "-");
@@ -260,7 +254,6 @@ fn get_appropiate_patch(version: String) -> PathBuf {
     let patch_path = Path::new(&patch_file);
 
     if !patch_path.exists() {
-        println!("name: {}", patch_file);
         panic!("Patch file not found for version: {}", version);
     }
 
@@ -286,13 +279,25 @@ fn parse_file(replay_file: String, output_file: String) {
     info!("Output: {}, Total execution time: {:.3}", output_file, end);
 }
 
+fn set_cwd() {
+    match env::current_exe() {
+        Ok(path) => {
+            if let Err(e) = env::set_current_dir(&path.parent().unwrap()) {
+                panic!("{}: {}", e, path.display());
+            }
+        }
+        Err(e) => {
+            panic!("Failed to get current executable path: {}", e);
+        }
+    };
+}
+
 fn main() {
+    set_cwd();
+
     setup_logger().unwrap();
 
     let args = Cli::parse();
-    //let config = Config::parse(std::path::Path::new(&args.patch_file));
-
-    //info!("Loaded patch config from: {}", args.patch_file);
 
     match args.parsing {
         Parsing::File {
@@ -300,12 +305,12 @@ fn main() {
             output_file,
         } => {
             parse_file(replay_file, output_file);
-        } /*
+        }
         Parsing::Folder {
-        replay_folder,
-        output_folder,
-        } => parse_batch(replay_folder, output_folder, config),
-         */
+            replay_folder,
+            output_folder,
+            patch_version,
+        } => parse_batch(replay_folder, output_folder, patch_version),
         _ => unimplemented!("Batch parsing not implemented yet"),
     }
 }

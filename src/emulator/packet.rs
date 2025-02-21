@@ -2,39 +2,8 @@ use crate::parser::util::*;
 
 use anyhow::Result;
 
-/*
-pub fn get_team_from_id(id: u32) -> String {
-    if id < 0x40000023 {
-        "Blue".to_string()
-    } else {
-        "Red".to_string()
-    }
-}
-
-pub fn get_role_from_id(id: u32) -> String {
-    match id {
-        0x4000001E | 0x40000023 => "Top".to_string(),
-        0x4000001F | 0x40000024 => "Jungle".to_string(),
-        0x40000020 | 0x40000025 => "Mid".to_string(),
-        0x40000021 | 0x40000026 => "Adc".to_string(),
-        0x40000022 | 0x40000027 => "Support".to_string(),
-        _ => unreachable!("Invalid owner_id"),
-    }
-}
-*/
-
-/*
-pub fn get_team_from_id(id: u32) -> String {
-    // FIXME: should not be hardcoded. should be on config file
-    if (id < 0x40000023 && id >= 0x4000001E) || (id < 0x40000030 && id >= 0x4000002B) {
-        "Blue".to_string()
-    } else {
-        "Red".to_string()
-    }
-}
-*/
-
-pub fn get_team_from_id(id: u32, player_id_start: u32) -> String {
+/* 
+pub fn get_ward_team_from_id(id: u32, player_id_start: u32) -> String {
     // FIXME: should not be hardcoded. should be on config file
     if id < player_id_start + 5 && id >= player_id_start {
         "Blue".to_string()
@@ -43,7 +12,7 @@ pub fn get_team_from_id(id: u32, player_id_start: u32) -> String {
     }
 }
 
-pub fn get_role_from_id(id: u32, player_id_start: u32) -> String {
+pub fn get_ward_role_from_id(id: u32, player_id_start: u32) -> String {
     // FIXME: should not be hardcoded. should be on config file
     if id == player_id_start || id == player_id_start + 5 {
         return "Top".to_string();
@@ -58,32 +27,6 @@ pub fn get_role_from_id(id: u32, player_id_start: u32) -> String {
     }
 
     unreachable!("Invalid id: {}", id);
-}
-
-/*
-pub fn get_role_from_id(id: u32) -> String {
-    // FIXME: should not be hardcoded. should be on config file
-    if id <= 0x40000027 && id >= 0x4000001E {
-        match id {
-            0x4000001E | 0x40000023 => "Top".to_string(),
-            0x4000001F | 0x40000024 => "Jungle".to_string(),
-            0x40000020 | 0x40000025 => "Mid".to_string(),
-            0x40000021 | 0x40000026 => "Adc".to_string(),
-            0x40000022 | 0x40000027 => "Support".to_string(),
-            _ => unreachable!(),
-        }
-    } else if id <= 0x40000034 && id >= 0x4000002B {
-        match id {
-            0x4000002B | 0x40000030 => "Top".to_string(),
-            0x4000002C | 0x40000031 => "Jungle".to_string(),
-            0x4000002D | 0x40000032 => "Mid".to_string(),
-            0x4000002E | 0x40000033 => "Adc".to_string(),
-            0x4000002F | 0x40000034 => "Support".to_string(),
-            _ => unreachable!(),
-        }
-    } else {
-        unreachable!("Invalid id: 0x{:X}", id)
-    }
 }
 */
 
@@ -245,9 +188,5 @@ impl PathPacket {
         }
 
         *self.waypoints.last().unwrap()
-    }
-
-    pub fn get_first_pos(&self) -> (f32, f32) {
-        *self.waypoints.first().unwrap()
     }
 }
