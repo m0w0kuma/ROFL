@@ -36,198 +36,224 @@ Example:
 ## Output File
 This is the truncated version of the .json output of a random game:
 ```javascript
-"metadata": {
-    "game_len": 2192410,
-    "players": [
-        {
-            "name": "ta d borest",
-            "position": "Top",
-            "skin": "Irelia",
-            "team": "Blue"
-        },
-        {
-            "name": "Vinicete",
-            "position": "Jungle",
-            "skin": "Karthus",
-            "team": "Blue"
-        },
-        {
-            "name": "",
-            "position": "Mid",
-            "skin": "Ahri",
-            "team": "Blue"
-        },
-        {
-            "name": "Trigo 11",
-            "position": "Adc",
-            "skin": "Ashe",
-            "team": "Blue"
-        },
-        {
-            "name": "Telaszz",
-            "position": "Support",
-            "skin": "Rell",
-            "team": "Blue"
-        },
-        {
-            "name": "goyangyi",
-            "position": "Top",
-            "skin": "Kennen",
-            "team": "Red"
-        },
-        {
-            "name": "ai calica24",
-            "position": "Jungle",
-            "skin": "Kindred",
-            "team": "Red"
-        },
-        {
-            "name": "Bionic",
-            "position": "Mid",
-            "skin": "Swain",
-            "team": "Red"
-        },
-        {
-            "name": "tinowns01",
-            "position": "Adc",
-            "skin": "Corki",
-            "team": "Red"
-        },
-        {
-            "name": "Moon NE WC3",
-            "position": "Support",
-            "skin": "Zac",
-            "team": "Red"
-        }
-    ],
-    "version": "5.1.",
-    "winning_team": "Blue"
-},
-"players": {
-         "Blue": {
-            "Top": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [100.0, 200.0], "timestamp": 5.0 },
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Jungle": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [700.0, 800.0], "timestamp": 18.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Mid": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [1100.0, 1200.0], "timestamp": 22.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Adc": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [5492.9, 5648.7], "timestamp": 25.613 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Support": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [1500.0, 1600.0], "timestamp": 21.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ]
-        },
-        "Red": {
-            "Top": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [400.0, 500.0], "timestamp": 16.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Jungle": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [800.0, 900.0], "timestamp": 19.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Mid": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [1200.0, 1300.0], "timestamp": 23.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Adc": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [5492.9, 5648.7], "timestamp": 26.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ],
-            "Support": [
-                #                  ...
-                #                  ...
-                #                  ...
-                { "pos": [1600.0, 1700.0], "timestamp": 22.0 }
-                #                  ...
-                #                  ...
-                #                  ...
-            ]
-        }
+{
+    "metadata": {
+        "game_len": 1386200,
+        "players": [
+            {
+                "name": "",
+                "position": "Top",
+                "skin": "Poppy",
+                "team": "Blue"
+            },
+            {
+                "name": "",
+                "position": "Jungle",
+                "skin": "MasterYi",
+                "team": "Blue"
+            },
+            {
+                "name": "",
+                "position": "Mid",
+                "skin": "Azir",
+                "team": "Blue"
+            },
+            {
+                "name": "",
+                "position": "Adc",
+                "skin": "Ezreal",
+                "team": "Blue"
+            },
+            {
+                "name": "",
+                "position": "Support",
+                "skin": "Maokai",
+                "team": "Blue"
+            },
+            {
+                "name": "",
+                "position": "Top",
+                "skin": "Shen",
+                "team": "Red"
+            },
+            {
+                "name": "",
+                "position": "Jungle",
+                "skin": "Sejuani",
+                "team": "Red"
+            },
+            {
+                "name": "",
+                "position": "Mid",
+                "skin": "Katarina",
+                "team": "Red"
+            },
+            {
+                "name": "",
+                "position": "Adc",
+                "skin": "MissFortune",
+                "team": "Red"
+            },
+            {
+                "name": "",
+                "position": "Support",
+                "skin": "Nautilus",
+                "team": "Red"
+            }
+        ],
+        "version": "5.4.",
+        "winning_team": "Red"
     },
-"wards": [
+    "players_state": [
+        {
+            #                  ...
+            #                  ...
+            #                  ...
+            "players": [
+                {
+                    "champ": "Poppy",
+                    "name": "",
+                    "pos": [
+                        1002.0,
+                        4088.0
+                    ],
+                    "role": "Top",
+                    "team": "Blue"
+                },
+                {
+                    "champ": "MasterYi",
+                    "name": "",
+                    "pos": [
+                        2372.0,
+                        3086.0
+                    ],
+                    "role": "Jungle",
+                    "team": "Blue"
+                },
+                {
+                    "champ": "Azir",
+                    "name": "",
+                    "pos": [
+                        2425.5,
+                        2734.7
+                    ],
+                    "role": "Mid",
+                    "team": "Blue"
+                },
+                {
+                    "champ": "Ezreal",
+                    "name": "",
+                    "pos": [
+                        3350.0,
+                        1438.0
+                    ],
+                    "role": "Adc",
+                    "team": "Blue"
+                },
+                {
+                    "champ": "Maokai",
+                    "name": "",
+                    "pos": [
+                        3106.0,
+                        2092.0
+                    ],
+                    "role": "Support",
+                    "team": "Blue"
+                },
+                {
+                    "champ": "Shen",
+                    "name": "",
+                    "pos": [
+                        12975.7,
+                        11532.8
+                    ],
+                    "role": "Top",
+                    "team": "Red"
+                },
+                {
+                    "champ": "Sejuani",
+                    "name": "",
+                    "pos": [
+                        13950.0,
+                        14130.0
+                    ],
+                    "role": "Jungle",
+                    "team": "Red"
+                },
+                {
+                    "champ": "Katarina",
+                    "name": "",
+                    "pos": [
+                        12150.1,
+                        11574.2
+                    ],
+                    "role": "Mid",
+                    "team": "Red"
+                },
+                {
+                    "champ": "MissFortune",
+                    "name": "",
+                    "pos": [
+                        12574.3,
+                        10876.9
+                    ],
+                    "role": "Adc",
+                    "team": "Red"
+                },
+                {
+                    "champ": "Nautilus",
+                    "name": "",
+                    "pos": [
+                        12006.0,
+                        11434.0
+                    ],
+                    "role": "Support",
+                    "team": "Red"
+                }
+            ],
+            "timestamp": 18.97
+        }
+        #                  ...
+        #                  ...
+        #                  ...
+    ],
+    "wards": [
         #                  ...
         #                  ...
         #                  ...
         {
-            "duration": 123.147705078125,
-            "name": "SightWard",
-            "owner_role": "Support",
+            "duration": 90.23948669433594,
+            "name": "YellowTrinket",
+            "owner": {
+                "name": "",
+                "role": "Jungle",
+                "team": "Blue"
+            },
             "pos": [
-                6314,
-                10104
+                7506,
+                9834
             ],
             "team": "Blue",
-            "timestamp": 1893.936767578125
+            "timestamp": 46.60076904296875
         },
         {
-            "duration": 1.001953125,
-            "name": "SightWard",
-            "owner_role": "Mid",
+            "duration": 90.12826538085938,
+            "name": "YellowTrinket",
+            "owner": {
+                "name": "",
+                "role": "Jungle",
+                "team": "Red"
+            },
             "pos": [
-                6328,
-                8372
+                6290,
+                10064
             ],
             "team": "Red",
-            "timestamp": 2018.554443359375
+            "timestamp": 68.35939025878906
         }
         #                  ...
         #                  ...
         #                  ...
-],
+    ]
 }
 ```
