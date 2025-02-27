@@ -14,7 +14,7 @@ use clap::{Parser, Subcommand};
 use colored::*;
 use emulator::packet::{PathPacket, PosKey, WardSpawnPacket};
 use fern::*;
-use log::{info, LevelFilter};
+use log::{info, warn, LevelFilter};
 use rayon::prelude::*;
 
 mod emulator;
@@ -70,6 +70,8 @@ enum Parsing {
         replay_file: String,
         #[clap(short, long)]
         output_file: String,
+        #[clap(short, long)]
+        debug: bool,
     },
 }
 
@@ -262,18 +264,34 @@ fn get_appropiate_patch(version: String) -> PathBuf {
     patch_path.to_path_buf()
 }
 
-fn parse_file(replay_file: String, output_file: String) {
+fn parse_file(replay_file: String, output_file: String, debug: bool) {
     let start = std::time::Instant::now();
+
+    if debug {
+        info!("Replay file: {}", replay_file);
+    }
 
     let file = read_file(replay_file.clone());
     let metadata = Metadata::parse(&file);
     let config = Config::parse(&get_appropiate_patch(metadata.version.clone()));
 
+    if debug {
+        info!("Parsed config successfully.");
+    }
+
     let game = get_replay_info(file, &metadata, &config);
+
+    if debug {
+        info!("Game parsed successfully.");
+    }
 
     let json_path = PathBuf::from(output_file.clone());
     let mut json = File::create(json_path).unwrap();
     json.write_all(game.to_string().as_bytes()).unwrap();
+
+    if debug {
+        info!("Writed to json file.");
+    }
 
     let end = start.elapsed().as_secs_f32();
     info!("Output: {}, Total execution time: {:.3}", output_file, end);
@@ -303,8 +321,13 @@ fn main() {
         Parsing::File {
             replay_file,
             output_file,
+            debug,
         } => {
-            parse_file(replay_file, output_file);
+            if debug {
+                parse_file(replay_file, output_file, true);
+            } else {
+                parse_file(replay_file, output_file, false);
+            }
         }
         Parsing::Folder {
             replay_folder,
